@@ -9,6 +9,12 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
+type Address struct {
+	PrivateKeyHex string
+	AddressHex    string
+	Base58Address string
+}
+
 const tronPrefix = "0x41"
 const base58Version = "41"
 
@@ -44,14 +50,17 @@ func GetPublicKeyFromPrivateKey(privateKey string) string {
 	return hexutil.Encode(publicKeyBytes)[2:]
 }
 
-func GetFromPrivateKey(privateKey string) (string, string, string) {
+func GetFromPrivateKey(privateKey string) Address {
 	publicKeyHex := GetPublicKeyFromPrivateKey(privateKey)
-	addressHex := GetAddressHexFromPublicKeyHex(publicKeyHex)
-	base58 := GetBase58CheckFromAddressHex(addressHex)
-	return privateKey, addressHex, base58
+
+	var address Address
+	address.AddressHex = GetAddressHexFromPublicKeyHex(publicKeyHex)
+	address.Base58Address = GetBase58CheckFromAddressHex(address.AddressHex)
+	address.PrivateKeyHex = privateKey
+	return address
 }
 
-func Generate() (string, string, string) {
+func Generate() Address {
 	privateKey, _ := crypto.GenerateKey()
 	privateKeyBytes := crypto.FromECDSA(privateKey)
 	privateKeyHex := hexutil.Encode(privateKeyBytes)
