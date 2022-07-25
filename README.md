@@ -1,4 +1,5 @@
 # TRC20 Address
+[![Go Reference](https://pkg.go.dev/badge/github.com/spcily/trc20.svg)](https://pkg.go.dev/github.com/spcily/trc20)
 
 a Golang package to generate a new TRC20 wallet address offline or get one from private key.
 
